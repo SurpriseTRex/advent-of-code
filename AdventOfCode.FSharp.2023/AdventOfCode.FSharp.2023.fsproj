@@ -11,8 +11,9 @@
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
         <Compile Include="Modules\Pair.fs" />
-        <Compile Include="Modules\Inputs.fs" />
+        <Compile Include="Modules\Files.fs" />
         <Compile Include="Days\Day01.fs" />
+        <Compile Include="Days\Day02.fs" />
         <Compile Include="Program.fs" />
     </ItemGroup>
 
@@ -20,5 +21,6 @@
       <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
       <PackageReference Include="xunit" Version="2.6.2" />
     </ItemGroup>
+
 
 </Project>

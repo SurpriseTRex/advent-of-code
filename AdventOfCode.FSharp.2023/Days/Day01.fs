@@ -2,7 +2,7 @@ module AdventOfCode.FSharp._2023.Days.Day01
 
 open System.Text.RegularExpressions
 open AdventOfCode.FSharp._2023.Modules
-open AdventOfCode.FSharp._2023.Modules.Inputs
+open AdventOfCode.FSharp._2023.Modules.Files
 
 let private numberRegex = Regex "(?=(\d){1}).*(\d){1}"
 
@@ -42,6 +42,6 @@ let private processLine regex input =
     |> Pair.map toDigit
     |> tupleToInt
 
-let day1Part1 = readInput 1 |> Seq.map (processLine numberRegex) |> Seq.sum
+let day1Part1 = Inputs.read 1 |> Seq.map (processLine numberRegex) |> Seq.sum
 
-let day1Part2 = readInput 1 |> Seq.map (processLine numberWithWordRegex) |> Seq.sum
+let day1Part2 = Inputs.read 1 |> Seq.map (processLine numberWithWordRegex) |> Seq.sum
