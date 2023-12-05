@@ -11,6 +11,7 @@
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
         <Compile Include="Modules\Pair.fs" />
+        <Compile Include="Modules\Inputs.fs" />
         <Compile Include="Days\Day01.fs" />
         <Compile Include="Program.fs" />
     </ItemGroup>
