@@ -3,11 +3,14 @@ module AdventOfCode.FSharp._2023.Days.Day01
 open System
 open System.IO
 open System.Text.RegularExpressions
+open AdventOfCode.FSharp._2023.Modules
 
 let readExamplePart1 = File.ReadLines("Inputs/01/example_01_01.txt")
 let readExamplePart2 = File.ReadLines("Inputs/01/example_01_02.txt")
 let readInput = File.ReadLines("Inputs/01/input_01.txt")
 
+
+let numberRegex = Regex "(?=(\d){1}).*(\d){1}"
 
 let numberWithWordRegex =
     Regex(
@@ -27,16 +30,9 @@ let toDigit (input: string) =
     | "nine" -> "9"
     | s -> s
 
-let digitsOnly input = input |> Seq.filter Char.IsDigit
+let tupleToInt (a, b) = $"{a}{b}" |> int
 
-let getFirstAndLast input = (Seq.head input, Seq.last input)
-
-let convertToInt (a, b) = $"{a}{b}" |> int
-
-let processLinePart1 input =
-    input |> digitsOnly |> getFirstAndLast |> convertToInt
-
-let getMatches input = numberWithWordRegex.Match input
+let getMatches (regex: Regex) input = regex.Match input
 
 let firstLastMatchGroup (m: Match) =
     m.Groups
@@ -45,13 +41,13 @@ let firstLastMatchGroup (m: Match) =
     |> Seq.map string
     |> fun pair -> (Seq.head pair, Seq.last pair)
 
-let processLinePart2 input =
+let processLine regex input =
     input
-    |> getMatches
+    |> getMatches regex
     |> firstLastMatchGroup
-    |> (fun (a, b) -> (toDigit a, toDigit b))
-    |> convertToInt
+    |> Pair.map toDigit
+    |> tupleToInt
 
-let day1Part1 = readInput |> Seq.map processLinePart2 |> Seq.sum
+let day1Part1 = readInput |> Seq.map (processLine numberRegex) |> Seq.sum
 
-let day1Part2 = readInput |> Seq.map processLinePart2 |> Seq.sum
+let day1Part2 = readInput |> Seq.map (processLine numberWithWordRegex) |> Seq.sum
