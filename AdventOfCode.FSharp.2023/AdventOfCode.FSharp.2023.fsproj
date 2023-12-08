@@ -12,6 +12,7 @@
         </Content>
         <Compile Include="Modules\Pair.fs" />
         <Compile Include="Modules\Files.fs" />
+        <Compile Include="Modules\Timing.fs" />
         <Compile Include="Days\Day01.fs" />
         <Compile Include="Days\Day02.fs" />
         <Compile Include="Program.fs" />

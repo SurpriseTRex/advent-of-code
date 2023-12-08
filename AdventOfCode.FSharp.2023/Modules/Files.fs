@@ -8,4 +8,4 @@ module Inputs =
 
 module Examples =
     let read day part =
-        $"Inputs/%02i{day}/example_%02i{day}_%02i{part}.txt"
+        $"Inputs/%02i{day}/example_%02i{day}_%02i{part}.txt" |> File.ReadLines
