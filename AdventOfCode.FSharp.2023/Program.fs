@@ -1,10 +1,18 @@
 ﻿// For more information see https://aka.ms/fsharp-console-apps
-open AdventOfCode.FSharp._2023.Days.Day01
+open AdventOfCode.FSharp._2023.Days.Day02
 open AdventOfCode.FSharp._2023.Modules.Files
-open AdventOfCode.FSharp._2023.Modules.Timing
 
-let regex = Inputs.read 1 |> benchmark "regex" day1Part2    
-let recurse = Inputs.read 1 |> benchmark "recursive" processRecursive
-let indexes = Inputs.read 1 |> benchmark "index" processIndexes
+// Examples.read 2 1
+//      |> Seq.map toGame
+//      |> Seq.iter (printfn "%A")
 
-[regex, recurse, indexes] |> Seq.iter (printfn "%A")
+
+let x = "1 green, 2 red, 1 blue; 2 blue; 1 blue; 34 red"
+
+x
+|> toSets
+|> Seq.map (fun set ->
+    match set with
+    | Draw d -> d
+    | _ -> failwith "todo")
+|> Seq.iter (printfn "%A")
