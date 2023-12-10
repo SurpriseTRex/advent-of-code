@@ -4,34 +4,70 @@ open AdventOfCode.FSharp._2023.Modules.Files
 
 let e1 = Examples.read 2 1
 
-// 12 red, 13 green, 14 blue
-// e1 = 8
+type Color =
+    | Red
+    | Green
+    | Blue
 
-// e1 |> Seq.iter (printfn "%A")
+type Hand = Color * int
 
+let toHandfulOfCubes (hand: string) =
+    let toColor =
+        function
+        | "red" -> Red
+        | "green" -> Green
+        | "blue" -> Blue
+        | _ -> failwith "todo"
 
-type Draw =
-    | Red of int
-    | Green of int
-    | Blue of int
+    let doMapping =
+        function
+        | [| i; c |] -> Hand(toColor c, int i)
+        | _ -> failwith "todo"
 
-type Game = Game of id: int * draws: Draw list
+    hand.Split ' ' |> doMapping
 
-let (|GameNumber|_|) (input: string) =
-    match input.Split(' ') with
-    | [| _; id |] -> id |> int |> Some
-    | _ -> None
+let trim (s: string) = s.Trim()
 
-let (|Draw|_|) (input: string) =
-    match input.Split ' ' with
-    | [| i; "red" |] -> Red(i |> int) |> Some
-    | [| i; "blue" |] -> Blue(i |> int) |> Some
-    | [| i; "green" |] -> Green(i |> int) |> Some
-    | _ -> None
+let splitSetsIntoHands (sets: string) = sets.Split(';', ',') |> Array.map trim
 
+let gameID (game: string) =
+    game.Split ' ' |> Array.skip 1 |> Array.head |> int
+
+let isPossibleHand (limits: Map<Color, int>) input =
+    let (c, i) = input
+    limits[c] >= i
+
+let arePossibleHands limits hands =
+    hands |> Array.forall (isPossibleHand limits)
+
+let parseRow (row: string) =
+    let doMapping =
+        function
+        | [| game; sets |] -> (game |> gameID, sets |> splitSetsIntoHands |> Array.map toHandfulOfCubes)
+        | _ -> failwith "todo"
+
+    row.Split ':' |> doMapping
+
+let processPart1 limits input =
+    input
+    |> Seq.map parseRow
+    |> Seq.filter (fun (_, hands) -> hands |> arePossibleHands limits)
+    |> Seq.sumBy fst
+
+let getPower row =
+    let powerOf color hands =
+        hands
+        |> Seq.filter (fun (c, _) -> c = color)
+        |> Seq.maxBy snd
+        |> snd
+        
+    (snd row |> powerOf Red) *
+    (snd row |> powerOf Green) *
+    (snd row |> powerOf Blue)
     
-let toSets (input: string) =
-    input.Split(',', ';') |> Seq.map (fun s -> s.Trim())
-
-let toGame (input: string) =
-    input.Split ":" |> fun split -> (split |> Seq.head, split[1] |> toSets)
+let processPart2 input =
+     input
+     |> Seq.map parseRow
+     |> Seq.map getPower
+     |> Seq.sum
+     
