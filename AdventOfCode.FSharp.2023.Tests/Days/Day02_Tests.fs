@@ -66,7 +66,7 @@ let ``parseRow``() =
 [<Fact>]
 let ``processPart1 e1``() =
     let maximum = [|Red, 12; Green, 13; Blue, 14|] |> Map.ofArray
-    let result = e1 |> processPart1 maximum
+    let result = (Examples.read 2 1) |> processPart1 maximum
     
     Assert.Equal(8, result)
     
